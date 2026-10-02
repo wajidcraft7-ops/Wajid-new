@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wajid Tab Engine | Unlimited Pop-Up Bypass Launcher</title>
+    <style>
+        :root {
+            --bg-base: #05070d;
+            --bg-card: rgba(13, 18, 32, 0.82);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(99, 102, 241, 0.35);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-indigo: #6366f1;
+            --accent-purple: #c084fc;
+            --accent-emerald: #10b981;
+            --accent-amber: #fbbf24;
+            --grad-primary: linear-gradient(135deg, #6366f1 0%, #38bdf8 50%, #c084fc 100%);
+            --grad-fire: linear-gradient(135deg, #c084fc 0%, #f43f5e 100%);
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --radius-sm: 8px;
+            --shadow-glow: 0 12px 35px -5px rgba(99, 102, 241, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.08) 0%, transparent 60%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .app-card {
+            width: 100%;
+            max-width: 780px;
+            background: var(--bg-card);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.85);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--grad-primary);
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand-title {
+            font-size: 1.85rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: var(--grad-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .badge-no-limit {
+            background: rgba(192, 132, 252, 0.12);
+            border: 1px solid rgba(192, 132, 252, 0.35);
+            color: var(--accent-purple);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.4rem 0.85rem;
+            border-radius: 30px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        label {
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            background: rgba(7, 11, 20, 0.85);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--accent-indigo);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+        }
+
+        .count-presets {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            padding: 0.6rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .preset-btn:hover, .preset-btn.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-indigo);
+            color: var(--accent-cyan);
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.85rem;
+        }
+
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-light);
+            padding: 1.1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .strategy-card.active {
+            background: rgba(99, 102, 241, 0.16);
+            border-color: var(--accent-indigo);
+            box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .strategy-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .strategy-desc {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .btn-launch {
+            width: 100%;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+            border: none;
+            border-radius: var(--radius-md);
+            background: var(--grad-primary);
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+        }
+
+        .btn-launch:active {
+            transform: translateY(0);
+        }
+
+        .pad-container {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: rgba(192, 132, 252, 0.08);
+            border: 1px solid rgba(192, 132, 252, 0.25);
+            border-radius: var(--radius-md);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .pad-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pad-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 0.6rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 0.85rem;
+            padding-right: 0.25rem;
+        }
+
+        .pad-btn {
+            background: var(--grad-fire);
+            color: #ffffff;
+            border: none;
+            padding: 0.65rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.825rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pad-btn.opened {
+            opacity: 0.3;
+            pointer-events: none;
+            background: #334155;
+        }
+
+        .info-note {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1rem;
+            background: rgba(56, 189, 248, 0.06);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 640px) {
+            .strategy-grid { grid-template-columns: 1fr; }
+            .count-presets { grid-template-columns: repeat(3, 1fr); }
+            .brand-title { font-size: 1.45rem; }
+            .app-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <div class="brand-title">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            WAJID TAB ENGINE
+        </div>
+        <span class="badge-no-limit">Unlimited Tabs</span>
+    </div>
+
+    <div class="form-grid">
+        <!-- Target Web Address -->
+        <div class="input-group">
+            <label for="targetUrl">
+                <span>Target Web Address</span>
+                <span style="color: var(--accent-emerald);">Auto-HTTPS Enabled</span>
+            </label>
+            <input type="text" id="targetUrl" value="https://google.com" placeholder="e.g. google.com" spellcheck="false">
+        </div>
+
+        <!-- Quantity of Tabs -->
+        <div class="input-group">
+            <label for="tabCount">
+                <span>Number of Tabs</span>
+                <span id="tabCountLabel" style="color: var(--accent-cyan);">10 Tabs</span>
+            </label>
+            <input type="number" id="tabCount" value="10" min="1" max="10000" oninput="updateTabCount(this.value)">
+            <div class="count-presets">
+                <button type="button" class="preset-btn" onclick="setPreset(5, this)">5</button>
+                <button type="button" class="preset-btn active" onclick="setPreset(10, this)">10</button>
+                <button type="button" class="preset-btn" onclick="setPreset(25, this)">25</button>
+                <button type="button" class="preset-btn" onclick="setPreset(50, this)">50</button>
+                <button type="button" class="preset-btn" onclick="setPreset(100, this)">100</button>
+                <button type="button" class="preset-btn" onclick="setPreset(500, this)">500</button>
+            </div>
+        </div>
+
+        <!-- Mode Selector -->
+        <div class="input-group">
+            <label>Bypass Execution Strategy</label>
+            <div class="strategy-grid">
+                <div id="stratDirect" class="strategy-card active" onclick="setStrategy('direct')">
+                    <div class="strategy-title">⚡ Synchronous Burst</div>
+                    <div class="strategy-desc">Launches all tab requests instantly inside a single native click thread.</div>
+                </div>
+                <div id="stratPad" class="strategy-card" onclick="setStrategy('pad')">
+                    <div class="strategy-title">🎯 Multi-Release Matrix</div>
+                    <div class="strategy-desc">Bypasses strict pop-up blocks for massive tab quantities (100+).</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Execute Button -->
+    <button type="button" class="btn-launch" onclick="executeTabs()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        LAUNCH UNLIMITED TABS
+    </button>
+
+    <!-- Multi-Pad Grid for Huge Batch Bypass -->
+    <div id="padContainer" class="pad-container">
+        <div class="pad-title">
+            <span>Manual Multi-Release Matrix</span>
+            <span id="padProgress">0 Opened</span>
+        </div>
+        <div id="padGrid" class="pad-grid"></div>
+    </div>
+
+    <div class="info-note">
+        💡 <strong>Note:</strong> If your browser pauses tabs beyond the first one, click the small pop-up icon in your address bar and select <strong>"Always allow pop-ups"</strong>.
+    </div>
+</div>
+
+<script>
+    let currentMode = 'direct';
+
+    function getFormattedUrl() {
+        let url = document.getElementById('targetUrl').value.trim();
+        if (!url) url = 'https://google.com';
+        if (!/^https?:\/\//i.test(url)) {
+            url = 'https://' + url;
+        }
+        return url;
+    }
+
+    function updateTabCount(val) {
+        const count = parseInt(val, 10) || 1;
+        document.getElementById('tabCountLabel').textContent = count + ' Tabs';
+        document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    function setPreset(val, element) {
+        document.getElementById('tabCount').value = val;
+        document.getElementById('tabCountLabel').textContent = val + ' Tabs';
+        document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+        if (element) element.classList.add('active');
+    }
+
+    function setStrategy(mode) {
+        currentMode = mode;
+        document.getElementById('stratDirect').classList.toggle('active', mode === 'direct');
+        document.getElementById('stratPad').classList.toggle('active', mode === 'pad');
+        if (mode === 'pad') {
+            buildPadGrid();
+        } else {
+            document.getElementById('padContainer').style.display = 'none';
+        }
+    }
+
+    function executeTabs() {
+        const url = getFormattedUrl();
+        const count = parseInt(document.getElementById('tabCount').value, 10) || 1;
+
+        if (currentMode === 'direct') {
+            for (let i = 0; i < count; i++) {
+                window.open(url, '_blank');
+            }
+        } else {
+            buildPadGrid();
+        }
+    }
+
+    function buildPadGrid() {
+        const url = getFormattedUrl();
+        const count = parseInt(document.getElementById('tabCount').value, 10) || 1;
+        const padContainer = document.getElementById('padContainer');
+        const padGrid = document.getElementById('padGrid');
+
+        padGrid.innerHTML = '';
+        padContainer.style.display = 'block';
+
+        let openedCount = 0;
+
+        for (let i = 1; i <= count; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'pad-btn';
+            btn.textContent = 'Tab #' + i;
+            btn.onclick = function() {
+                window.open(url, '_blank');
+                btn.classList.add('opened');
+                btn.textContent = 'Opened ✓';
+                openedCount++;
+                document.getElementById('padProgress').textContent = openedCount + ' / ' + count + ' Opened';
+            };
+            padGrid.appendChild(btn);
+        }
+    }
+</script>
+</body>
+</html>
